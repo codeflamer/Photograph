@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import RegistrationPage from './pages/RegistrationPage'
 import LoginPage from './pages/LoginPage'
+import Home from "./pages/Home";
 
 const App = () =>  {
   return (
@@ -17,9 +18,9 @@ const App = () =>  {
           <Route path="/signup">
             <RegistrationPage />
           </Route>
-          {/* <Route path="/" exact>
+          <Route path="/" exact>
             <Home />
-          </Route> */}
+          </Route>
         </Switch>
     </Router>
   );

@@ -49,7 +49,7 @@ const LoginLeft = styled.div`
     height:100vh;
     margin:0px auto;
     padding-top:40px;
-    padding:12vh 31px 0 31px;
+    padding:10vh 31px 0 31px;
     @media(min-width:600px){
         max-width: 730px;
         /* display: block; */
