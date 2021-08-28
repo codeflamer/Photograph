@@ -5,29 +5,87 @@ import CredentialButton from '../components/CredentialButton';
 import CredentialHeader from '../components/CredentialHeader'
 import CredentialPasswordInput from '../components/CredentialPasswordInput';
 import CredentialsInput from '../components/CredentialsInput';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 
 const RegistrationPage = () => {
 
-    const handleSubmit = (e) =>{
-        e.preventDefault();
-        alert('Hey James')
-    }
+    // const handleSubmit = (e) =>{
+    //     e.preventDefault();
+    //     alert('Hey James')
+    // }
+
+    const formik = useFormik({
+        initialValues: {
+          email: '',
+          userName: '',
+          passWord1:'',
+          passWord2:'',
+        },
+        
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2));
+          },
+        validationSchema: Yup.object({
+            email: Yup.string().email('Invalid email address').required('Required'),
+            userName: Yup.string().max(10,'less than 10 characters').required('Required'),
+            passWord1: Yup.string().min(5,'Password too short!').required('Required'),
+            passWord2: Yup.string().min(5,'Password too short!').required('Required'),
+          }),
+      });
 
     return (
         <RegistrationContainer>
             <RegistrationContent>
                 <RegistrationLeft>
                     <CredentialHeader header='Register' welcomeMessage='Join now and make the world of photography market'/>
-                    <form>
-                        <CredentialsInput type='email' label='Email' placeholder='Enter your email here'/>
-                        <CredentialsInput type='text' label='Username' placeholder='Enter your username here'/>
-                        <CredentialPasswordInput label='Password' placeholder='Enter your password here'/>
-                        <CredentialPasswordInput  label='Confirm Password' placeholder='Enter your password here'/>
+                    <form onSubmit={formik.handleSubmit}>
+                        <CredentialsInput 
+                            type='email' 
+                            label='Email'
+                            name='email' 
+                            touched={formik.touched.email}
+                            error={formik.errors.email}
+                            placeholder='Enter your email here' 
+                            handleChange={formik.handleChange}
+                            value={formik.values.email}
+                            />
+
+                        <CredentialsInput 
+                            type='text' 
+                            label='Username'
+                            name='userName' 
+                            placeholder='Enter your username here'
+                            touched={formik.touched.userName}
+                            error={formik.errors.userName}
+                            handleChange={formik.handleChange}
+                            value={formik.values.userName}
+                            />
+                        <CredentialPasswordInput 
+                            label='Password'
+                            name='passWord1' 
+                            placeholder='Enter your password here'
+                            touched={formik.touched.passWord1}
+                            error={formik.errors.passWord1}
+                            handleChange={formik.handleChange}
+                            value={formik.values.passWord1}
+                            />
+                        <CredentialPasswordInput
+                            label='Confirm Password' 
+                            name='passWord2' 
+                            placeholder='Enter your password here'
+                            touched={formik.touched.passWord2}
+                            error={formik.errors.passWord2}
+                            handleChange={formik.handleChange}
+                            value={formik.values.passWord2}
+                            />
+
+                        <Redirect>
+                            <CredentialButton text='Register'/>
+                            <p>You have registered? <Link to='/login'>Login Now</Link></p>
+                        </Redirect>
                     </form>
-                    <Redirect>
-                        <CredentialButton text='Register' submit={handleSubmit}/>
-                        <p>You have registered? <Link to='/login'>Login Now</Link></p>
-                    </Redirect>
+                    
                 </RegistrationLeft>
                 <RegistrationRight>
                     {/* hello

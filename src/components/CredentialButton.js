@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components';
 
-const CredentialButton = ({text,submit}) => {
+const CredentialButton = ({text}) => {
     return (
         <div>
-            <Button type='submit' onClick={submit}>
+            <Button type='submit'>
                 {text}
             </Button>
         </div>

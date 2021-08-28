@@ -5,21 +5,63 @@ import CredentialButton from '../components/CredentialButton';
 import CredentialHeader from '../components/CredentialHeader'
 import CredentialPasswordInput from '../components/CredentialPasswordInput';
 import CredentialsInput from '../components/CredentialsInput';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 
 const LoginPage = () => {
+
+    // const handleSubmit = (e) =>{
+    //     e.preventDefault();
+    //     alert('Hey James')
+    // }
+    
+    const formik = useFormik({
+        initialValues: {
+          email: '',
+          passWord: '',
+        },
+        
+        onSubmit: values => {
+          alert(JSON.stringify(values, null, 2));
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email('Invalid email address').required('Required'),
+            passWord: Yup.string().min(5,'Password too short!').required('Required'),
+          }),
+      });
+
     return (
         <LoginContainer>
             <LoginContent>
                 <LoginLeft>
                     <CredentialHeader header='Login' welcomeMessage='You are welcome back,customer'/>
-                    <form>
-                        <CredentialsInput type='email' label='Email' placeholder='Enter your email here'/>
-                        <CredentialPasswordInput label='Password' placeholder='Enter your password here' />
+                    <form onSubmit={formik.handleSubmit}>
+                        <CredentialsInput 
+                            type='email' 
+                            label='Email'
+                            name='email' 
+                            touched={formik.touched.email}
+                            error={formik.errors.email}
+                            placeholder='Enter your email here'
+                            handleChange={formik.handleChange}
+                            value={formik.values.email}
+                            />
+
+                        <CredentialPasswordInput 
+                            label='Password' 
+                            name='passWord' 
+                            placeholder='Enter your password here'
+                            touched={formik.touched.passWord}
+                            error={formik.errors.passWord}
+                            handleChange={formik.handleChange}
+                            value={formik.values.passWord}
+                            />
+                        <Redirect>
+                            <CredentialButton text='login'/>
+                            <p>Not yet registered? <Link to='/signup'>Register Now</Link></p>
+                        </Redirect>
                     </form>
-                    <Redirect>
-                        <CredentialButton text='login'/>
-                        <p>Not yet registered? <Link to='/signup'>Register Now</Link></p>
-                    </Redirect>
+                    
                 </LoginLeft>
                 <LoginRight>
                     {/* hello

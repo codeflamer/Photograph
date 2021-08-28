@@ -1,21 +1,29 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 
-const CredentialPasswordInput = ({label,placeholder}) => {
+const CredentialPasswordInput = ({name,label,placeholder,handleChange,value,touched,error}) => {
+    
     const [isRevealPwd, setIsRevealPwd] = useState(false);
-    const [pwd, setPwd] = useState('');
     return (
         <CredentialInputContainer>
-            <h3>{label}</h3>
+            <label htmlFor={name}>{label}</label>
             <input 
-                type={isRevealPwd ? "text" : "password"} 
-                placeholder={placeholder} required value={pwd}
-                onChange={e => setPwd(e.target.value)}/>
-            
+                type={isRevealPwd ? 'text': 'password'}
+                id={name}
+                name={name}
+                placeholder={placeholder} 
+                required 
+                value={value}
+                onChange={handleChange}            
+                />
+
                  <i 
                 className={isRevealPwd ? "fas fa-eye" : "fas fa-eye-slash"} 
                 onClick={() => setIsRevealPwd(prevState => !prevState)}></i>
-            
+
+                {touched && error ? (
+                    <span>{error}</span>
+                ) : null}
             
         </CredentialInputContainer>
     )
@@ -26,10 +34,12 @@ export default CredentialPasswordInput;
 const CredentialInputContainer = styled.div`
     margin-top: 20px;
     position: relative;
-    h3{
+    label{
+        display: block;
         margin-bottom: 12px;
         font-size: 18px;
         line-height: 24px;
+        font-weight: bold;
     }
     >input{
         border:0;
@@ -51,6 +61,10 @@ const CredentialInputContainer = styled.div`
         top:45px;
         color:var(--textPrimary);
         cursor: pointer;
+    }
+    span{
+        color:red;
+        font-size: 13px;
     }
 `
 
